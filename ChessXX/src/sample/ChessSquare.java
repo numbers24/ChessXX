@@ -4,8 +4,8 @@ import ChessPieces.ChessPiece;
 
 public class ChessSquare {
 
-    String color;
-    ChessPiece piece;
+    public String color;
+    public ChessPiece piece;
     public ChessSquare(String color,ChessPiece piece)
     {
         this.color=color;

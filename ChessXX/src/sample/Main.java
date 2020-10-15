@@ -85,11 +85,7 @@ public class Main {
             case "class ChessPieces.Knight" :
                 break;
             case "class ChessPieces.Rook" :
-                //Rook can only move up/down/left/right for as long as it wants
-                //check path forward to see if anything is in your way
-                if((i==i2&&j!=j2)||(i!=i2&&j==j2)) {
-
-
+                if(A.checkPath(i,j,i2,j2,board)){
                     break;
                 }
                 else{
@@ -150,11 +146,11 @@ public class Main {
 
         if(((A instanceof Rook && B instanceof King)||(A instanceof King && B instanceof Rook))&&(A.moveCount==0&&B.moveCount==0)) //if A and B are a Rook and King and haven't moved
         {
-            if(j2<j)
+            if(j>j2)
             {
-                int temp = j2;
-                j2=j;
-                j=temp;
+                int temp = j;
+                j=j2;
+                j2=temp;
             }
             //check all chess squares in between to make sure they're empty
             for(j=j+1;j<j2;j++)

@@ -1,5 +1,7 @@
 package ChessPieces;
 
+import sample.ChessSquare;
+
 public class ChessPiece {
     public String name;
     public String color;
@@ -8,5 +10,8 @@ public class ChessPiece {
         this.name=name;
         this.color = color;
         this.moveCount=moveCount;
+    }
+    public boolean checkPath(int i, int j, int i2, int j2, ChessSquare[][] board) {
+        return true;
     }
 }
