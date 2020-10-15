@@ -31,7 +31,7 @@ public class Main {
 
         int i = coord.charAt(0)-97;
         int j = Math.abs(coord.charAt(1)-'0'-8);
-        return new int[]{i, j};
+        return new int[]{j, i};
     }
     public static void printBoard(){ //print's out the chess board
 
@@ -83,7 +83,13 @@ public class Main {
             case "class ChessPieces.Bishop" :
                 break;
             case "class ChessPieces.Knight" :
-                break;
+                if(A.checkPath(i,j,i2,j2,board)){
+                    break;
+                }
+                else {
+                    System.out.println("Knight cannot move there");
+                    return 0;
+                }
             case "class ChessPieces.Rook" :
                 if(A.checkPath(i,j,i2,j2,board)){
                     break;
@@ -98,7 +104,7 @@ public class Main {
 
                 break;
         }
-
+        System.out.println(i2+","+j2);
         //check if there's a piece on to
         if(B!=null)
         {   //check if the player is trying to put a piece on place already occupied by one of his own
@@ -139,7 +145,7 @@ public class Main {
     //checks to see if king is in check
     public static boolean checkCheck(String colorturn)
     {
-        return true;
+        return false;
     }
     //checks to see if you can succesfully swap king and rook
     public static boolean checkKRswap(int i,int j,int i2,int j2,ChessPiece A,ChessPiece B){
@@ -167,7 +173,10 @@ public class Main {
         board = generateBoard();
 
         printBoard();
-System.out.println(new King("","",0).getClass().toString());
+        move("g1","h3","  "); printBoard();
+        System.out.println();
+        int [] a = getCoords("c7");
+        System.out.println(a[0]+","+a[1]);
 
     }
 }
