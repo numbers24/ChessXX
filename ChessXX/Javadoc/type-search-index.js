@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"ChessPieces","l":"Bishop"},{"p":"ChessPieces","l":"ChessPiece"},{"p":"App","l":"ChessSquare"},{"p":"ChessPieces","l":"King"},{"p":"ChessPieces","l":"Knight"},{"p":"App","l":"Main"},{"p":"ChessPieces","l":"Pawn"},{"p":"ChessPieces","l":"Queen"},{"p":"ChessPieces","l":"Rook"}];updateSearchResults();
