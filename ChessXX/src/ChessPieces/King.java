@@ -32,7 +32,7 @@ public class King extends ChessPiece{
      * @return
      */
     public boolean checkPath(int i, int j, int i2, int j2, ChessSquare[][] board) {
-        if(Math.abs(i-i2)==1 || Math.abs(j-j2)==1) return true;
+        if(Math.abs(i-i2)==1 && (Math.abs(j-j2)==0 || Math.abs(j-j2)==1) || (Math.abs(i-i2)==0 || Math.abs(i-i2)==1) && Math.abs(j-j2)==1) return true;
         if(Math.abs(j-j2)==2 && i==i2){
             int[] castleloc = checkCastle(i,j,j2,board[i][j].piece,board);
             if(castleloc !=null) {
@@ -59,12 +59,12 @@ public class King extends ChessPiece{
         if(j>j2){
             k=-1;
         }
-        for(int y=j; y>=0 && y<8; y+=k){
-                ChessPiece B = board[i][y].piece;
-                if(B instanceof Rook && B.moveCount==0 && A.color.equals(B.color)){
-                    //condence castle
-                    return new int[]{y,k};
-            }
+        for(int y=j+k; y>=0 && y<8; y+=k){
+            ChessPiece B = board[i][y].piece;
+            if (B!=null)
+                if (B instanceof Rook && B.moveCount == 0 && A.color.equals(B.color)) return new int[]{y, k};
+                else return null;
+            if(check(A.color,board,new int[]{i,y})) return null;
         } return null;
     }
 
@@ -179,6 +179,8 @@ public class King extends ChessPiece{
                     switch (board[i][j].piece.getClass().toString()) {
                         case "class ChessPieces.King": //if the difference in moves between x,y and i,j is 1 ie if King is right next to you
                             if (Math.abs(i-x)==1 || Math.abs(j-y)==1){
+                                try{
+                                if(board[i][j].piece.color.equals(startcolor)) return false;} catch (Exception e) {}
                                 checklist.add(new int[] {i,j});
                                 return true;
                             } else return false;
@@ -253,14 +255,11 @@ public class King extends ChessPiece{
                 //check if the paths of those checking can be blocked
                 for(int[]c : checklist){
                     for(int [] path : getPath(i,j,c[0],c[1],board)){
-                        if(!check(Main.endTurn(colorturn),board,c)) return 1; //it will throw a check if one of the members on your team can rach this block
+                        if(check(Main.endTurn(colorturn),board,path)) return 1; //it will throw a check if one of the members on your team can rach this block
                     }
                 }
-                //check if the king can be castled
-                if(checkCastle(i,j,2,board[i][j].piece,board) == null && checkCastle(i,j,6,board[i][j].piece,board) == null) {
                     board = ChessSquare.reverse(hidden, board);
                     return 2; //checkmate
-                }
             }
             else{
                 board = ChessSquare.reverse(hidden,board); return 1; //just a regular check
@@ -285,7 +284,7 @@ public class King extends ChessPiece{
         if(i==i2){//the path is verticle or horizontal
                 if(j>j2) k=-1;
                 else k = 1;
-                for(int y = j; y!=j2; y+=k)
+                for(int y = j+k; y!=j2; y+=k)
                     path.add(new int[]{i,y});
         }
         if(j==j2){
@@ -294,7 +293,7 @@ public class King extends ChessPiece{
             for(int x=i+k; x!=i2; x+=k)
                 path.add(new int[]{x,j});
         }
-        if(i+j == i2+j2) {//the path is diagonal
+        if(i+j == i2+j2 || i-j == i2-j2) {//the path is diagonal
             if(i>i2) k=-1;
             else k = 1;
             if(j>j2) q=-1;
